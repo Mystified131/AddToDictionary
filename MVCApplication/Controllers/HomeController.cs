@@ -13,6 +13,7 @@ namespace MVCApplication.Controllers
     public class HomeController : Controller
     {
         static public Dictionary<string, string> TheDictionary = new Dictionary<string, string>();
+        static public string edit;
 
         public IActionResult Index()
         {
@@ -86,13 +87,83 @@ namespace MVCApplication.Controllers
 
                 removeViewModel.TheDictionary = TheDictionary;
 
-                return View(removeViewModel);
+                return Redirect("/Home/Result");
             }
 
             return Redirect("/");
 
         }
 
+        [HttpGet]
+        public IActionResult EditSelect()
+        {
+            if (TheDictionary.Count > 0)
+            {
+                EditSelectViewModel editSelectViewModel = new EditSelectViewModel();
+
+                editSelectViewModel.TheDictionary = TheDictionary;
+
+                return View(editSelectViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult EditSelect(EditSelectViewModel editSelectViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                edit = editSelectViewModel.NewElement1;
+                TheDictionary.Remove(editSelectViewModel.NewElement1);
+
+                return View("EditItem");
+            }
+
+            return Redirect("/");
+
+        }
+
+
+        [HttpGet]
+        public IActionResult EditItem()
+        {
+            if (TheDictionary.Count > 0)
+            {
+                EditItemViewModel editItemViewModel = new EditItemViewModel();
+
+                return View(editItemViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult EditItem(EditItemViewModel editItemViewModel)
+
+        {
+            if (ModelState.IsValid)
+
+            {
+
+
+                TheDictionary.Add(edit, editItemViewModel.NewElement2);
+
+                return Redirect("/Home/Result");
+            }
+
+            return Redirect("/");
+
+        }
 
     }
 
