@@ -14,6 +14,7 @@ namespace MVCApplication.Controllers
     {
         static public Dictionary<string, string> TheDictionary = new Dictionary<string, string>();
         static public string edit;
+        static public string editval;
 
         public IActionResult Index()
         {
@@ -121,6 +122,8 @@ namespace MVCApplication.Controllers
             {
 
                 edit = editSelectViewModel.NewElement1;
+                editval = TheDictionary[edit];
+                ViewBag.value = editval;
                 TheDictionary.Remove(editSelectViewModel.NewElement1);
 
                 return View("EditItem");
@@ -136,6 +139,7 @@ namespace MVCApplication.Controllers
         {
             if (TheDictionary.Count > 0)
             {
+
                 EditItemViewModel editItemViewModel = new EditItemViewModel();
 
                 return View(editItemViewModel);
