@@ -57,7 +57,7 @@ namespace MVCApplication.Controllers
             if (ModelState.IsValid)
             {
 
-                TheDictionary.Add(resultViewModel.NewElement1, resultViewModel.NewElement2);
+                TheDictionary.Add(resultViewModel.NewElement1.ToLower(), resultViewModel.NewElement2.ToLower());
 
                 resultViewModel.TheDictionary = TheDictionary;
 
@@ -216,7 +216,7 @@ namespace MVCApplication.Controllers
             {
                 SearchResultViewModel searchResultViewModel = new SearchResultViewModel();
 
-                var Anslist = TheDictionary.Where(c => c.Value.Contains(Searchstr));
+                var Anslist = TheDictionary.Where(c => c.Value.Contains(Searchstr.ToLower()));
 
                 ViewBag.Anslist = Anslist;
 
