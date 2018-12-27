@@ -221,7 +221,29 @@ namespace MVCApplication.Controllers
             {
                 SearchResultViewModel searchResultViewModel = new SearchResultViewModel();
 
-                var Anslist = TheDictionary.Where(c => c.Value.Contains(Searchstr.ToLower()));
+                List<string> Anslist = new List<string>();
+
+                foreach(KeyValuePair<string, string> item in TheDictionary)
+
+                {
+                    if (item.Value.Contains(Searchstr))
+
+                    {
+
+                        string addstr = item.Key + ":" + item.Value;
+                        Anslist.Add(addstr);
+
+                    }
+
+                }
+
+                if(Anslist.Count == 0)
+                {
+
+                    Anslist.Add("That search returned no results.");
+
+                }
+                       
 
                 ViewBag.Anslist = Anslist;
 
