@@ -16,6 +16,8 @@ namespace MVCApplication.Controllers
         static public string edit;
         static public string editval;
         static public string Searchstr;
+        static public string Bridgeelement1;
+        static public string Bridgeelement2;
 
         public IActionResult Index()
         {
@@ -133,6 +135,8 @@ namespace MVCApplication.Controllers
                 edit = editSelectViewModel.NewElement1;
                 editval = TheDictionary[edit];
                 ViewBag.value = editval;
+                Bridgeelement1 = editSelectViewModel.NewElement1;
+                Bridgeelement2 = editval;
                 TheDictionary.Remove(editSelectViewModel.NewElement1);
 
                 return View("EditItem");
@@ -174,6 +178,7 @@ namespace MVCApplication.Controllers
                 return Redirect("/Home/Result");
             }
 
+            TheDictionary.Add(Bridgeelement1, Bridgeelement2);
             return Redirect("/Home/Error");
 
         }
