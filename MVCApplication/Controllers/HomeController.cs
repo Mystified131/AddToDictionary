@@ -9,17 +9,18 @@ using MVCApplication.ViewModels;
 
 namespace MVCApplication.Controllers
 {
-  
+
     public class HomeController : Controller
     {
         static public Dictionary<string, string> TheDictionary = new Dictionary<string, string>();
         static public string edit;
         static public string editval;
+        static public string Searchstr;
 
         public IActionResult Index()
         {
-            
-        IndexViewModel indexViewModel = new IndexViewModel();
+
+            IndexViewModel indexViewModel = new IndexViewModel();
 
             return View(indexViewModel);
         }
@@ -34,8 +35,9 @@ namespace MVCApplication.Controllers
         [HttpGet]
         public IActionResult Result()
         {
-            if(TheDictionary.Count > 0) { 
-            ResultViewModel resultViewModel = new ResultViewModel();
+            if (TheDictionary.Count > 0)
+            {
+                ResultViewModel resultViewModel = new ResultViewModel();
 
                 resultViewModel.TheDictionary = TheDictionary;
 
@@ -176,8 +178,57 @@ namespace MVCApplication.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult SearchSelect()
+        {
+            if (TheDictionary.Count > 0)
+            {
+                SearchSelectViewModel searchSelectViewModel = new SearchSelectViewModel();
+
+                return View(searchSelectViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SearchSelect(SearchSelectViewModel searchSelectViewModel)
+
+        {
+            if (ModelState.IsValid)
+
+            {
+                Searchstr = searchSelectViewModel.Searchstr;
+                return Redirect("/Home/SearchResult");
+            }
+
+            return Redirect("/Home/Error");
+
+        }
+
+        [HttpGet]
+        public IActionResult SearchResult()
+        {
+            if (TheDictionary.Count > 0)
+            {
+                SearchResultViewModel searchResultViewModel = new SearchResultViewModel();
+
+                var Anslist = TheDictionary.Where(c => c.Value.Contains(Searchstr));
+
+                ViewBag.Anslist = Anslist;
+
+                return View(searchResultViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
     }
-
-
 
 }
