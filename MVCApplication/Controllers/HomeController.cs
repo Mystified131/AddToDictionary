@@ -256,6 +256,41 @@ namespace MVCApplication.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Sort()
+        {
+            if (TheDictionary.Count > 0)
+            {
+                SortViewModel sortViewModel = new SortViewModel();
+
+                List<string> Bridgelist = new List<string>();
+                Dictionary<string, string> Bridgedict = new Dictionary<string, string>();
+                foreach (KeyValuePair<string, string> item in TheDictionary)
+                {
+
+                    Bridgelist.Add(item.Key);
+
+                }
+
+                Bridgelist.Sort();
+                foreach(string item in Bridgelist)
+                {
+
+                    Bridgedict.Add(item, TheDictionary[item]);
+
+                }
+
+                sortViewModel.Sortdict = Bridgedict;
+
+                return View(sortViewModel);
+            }
+
+            else
+            {
+                return Redirect("/");
+            }
+        }
+
     }
 
 }
